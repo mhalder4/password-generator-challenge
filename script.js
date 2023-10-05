@@ -67,14 +67,46 @@ function generateRandomNumber(min, max) {
 function confirmChar(object) {
   var bool = confirm(`Do you want your password to contain ${object.name}?`);
   if (bool) {
-    charTypes.push(object.numInPassword);
+    charTypes.push(object);
   }
   return bool;
 }
 
+function randomizeNumOfChars() {
+  var charTypesLeft = charTypes.length - 1;
+  charTypes.sort(function () { return Math.random() - 0.5 });
+  for (var i = 0; i < charTypes.length; i++) {
+    if (i < charTypes.length - 1) {
+      var randomNumber = generateRandomNumber(1, length - (charTypesLeft - i));
+      length = length - randomNumber;
+    } else {
+      randomNumber = length;
+    }
+    charTypes[i].numInPassword = randomNumber;
+  }
+  console.log(charTypes);
+  // charTypes = [];
+}
 
+function randomizePasswordContents() {
+  var passwordChar;
+  var password = [];
+  for (var i = 0; i < charTypes.length; i++) {
+    for (var j = 0; j < charTypes[i].numInPassword; j++) {
+      var randomNum = generateRandomNumber(0, charTypes[i].possibleChars.length - 1);
+      passwordChar = charTypes[i].possibleChars[randomNum];
+      password.push(passwordChar);
+      console.log(password);
+    }
+  }
+  // charTypes = [];
+  password.sort(function () { return Math.random() - 0.5 });
+  return password.join("");
+}
 
 function generatePassword() {
+  charTypes = [];
+
   //Length Prompt    "length"
   length = prompt("How long do you want your password to be? (Min: 8; Max: 128)");
   if (length < 8 || length > 128) {
@@ -101,16 +133,16 @@ function generatePassword() {
 
   alert("Your choices are appropriate for a password. Your password will be generated once you hit OK.");
 
+  randomizeNumOfChars();
+  return (randomizePasswordContents());
 
-
-  lowerCase.numInPassword = 5;
 
   console.log(length);
   console.log(lowerCase.isInPassword);
   console.log(upperCase.isInPassword);
   console.log(numbers.isInPassword);
   console.log(specialChars.isInPassword);
-  console.log(charTypes);
+
   // console.log(numOfEachCharType);
 }
 
