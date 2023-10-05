@@ -1,20 +1,78 @@
+/*
+  Make something that choose a random char type and grabs a random amount of char from that array that is no longer than "length-charTypes-1" so that there is at least 1 of each selected char type
+*/
+
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
+// Vars for what user wants in their password
 var length;
-var hasLowerCase;
-var hasUpperCase;
-var hasNumbers;
-var hasSpecialChar;
+// var hasLowerCase;
+// var hasUpperCase;
+// var hasNumbers;
+// var hasSpecialChar;
 var isValid;
 
-var alphabet = "abcdefghijklmnopqrstuvwxyz";
-var number = "0123456789";
+var lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+var upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var possibleNumber = "0123456789";
 var specialChar = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
-var alphas = alphabet.split("");
-var numbers = number.split("");
-var specials = specialChar.split("");
+var lowerCase = {
+  name: "lowercase letters",
+  isInPassword: false,
+  possibleChars: lowerAlphabet.split(""),
+  numInPassword: 0
+}
+
+var upperCase = {
+  name: "uppercase letters",
+  isInPassword: false,
+  possibleChars: upperAlphabet.split(""),
+  numInPassword: 0
+}
+
+var numbers = {
+  name: "numbers",
+  isInPassword: false,
+  possibleChars: possibleNumber.split(""),
+  numInPassword: 0
+}
+
+var specialChars = {
+  name: "special characters",
+  isInPassword: false,
+  possibleChars: specialChar.split(""),
+  numInPassword: 0
+}
+
+
+// // Splits strings above into an array
+// var alphas = alphabet.split("");
+// var numbers = number.split("");
+// var specials = specialChar.split("");
+
+var charTypes = [];
+// Keeps track of number of each char type in password
+// var numLowerAlphas = 0;
+// var numUpperAlphas = 0;
+// var numOfNumbers = 0;
+// var numSpecials = 0;
+// var numOfEachCharType = [];
+
+function generateRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function confirmChar(object) {
+  var bool = confirm(`Do you want your password to contain ${object.name}?`);
+  if (bool) {
+    charTypes.push(object.numInPassword);
+  }
+  return bool;
+}
+
+
 
 function generatePassword() {
   //Length Prompt    "length"
@@ -25,29 +83,35 @@ function generatePassword() {
   }
 
   //Lowercase Confirm    "hasLowerCase"
-  hasLowerCase = confirm("Do you want your password to contain lowercase characters?");
+  lowerCase.isInPassword = confirmChar(lowerCase);
 
   //Uppercase Confirm    "hasUpperCase"
-  hasUpperCase = confirm("Do you want your password to contain uppercase characters?");
+  upperCase.isInPassword = confirmChar(upperCase);
 
   //Numbers Confirm    "hasNumbers"
-  hasNumbers = confirm("Do you want your password to contain numbers?");
+  numbers.isInPassword = confirmChar(numbers);
 
   //Specials Confirm    "hasSpecialChar"
-  hasSpecialChar = confirm("Do you want your password to contain special characters?");
+  specialChars.isInPassword = confirmChar(specialChars);
 
-  if (!hasLowerCase && !hasUpperCase && !hasNumbers && !hasSpecialChar) {
+  if (!lowerCase.isInPassword && !upperCase.isInPassword && !numbers.isInPassword && !specialChars.isInPassword) {
     alert("You must have at least one character type (lowercase. uppercase, numbers, or special characters) within your password. Please try again.");
     generatePassword();
   }
 
   alert("Your choices are appropriate for a password. Your password will be generated once you hit OK.");
 
-  // console.log(length);
-  // console.log(hasLowerCase);
-  // console.log(hasUpperCase);
-  // console.log(hasNumbers);
-  // console.log(hasSpecialChar);
+
+
+  lowerCase.numInPassword = 5;
+
+  console.log(length);
+  console.log(lowerCase.isInPassword);
+  console.log(upperCase.isInPassword);
+  console.log(numbers.isInPassword);
+  console.log(specialChars.isInPassword);
+  console.log(charTypes);
+  // console.log(numOfEachCharType);
 }
 
 // Write password to the #password input
@@ -64,6 +128,7 @@ generateBtn.addEventListener("click", writePassword);
 
 
 
-console.log(alphas);
-console.log(numbers);
-console.log(specials);
+console.log(lowerCase.possibleChars);
+console.log(upperCase.possibleChars);
+console.log(numbers.possibleChars);
+console.log(specialChars.possibleChars);
