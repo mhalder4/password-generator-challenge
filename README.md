@@ -1,4 +1,4 @@
-# Radom Password Generator Challenge
+# Random Password Generator Challenge
 
 ## Description
 
